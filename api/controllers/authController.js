@@ -57,17 +57,15 @@ exports.refreshToken = async (req, res) => {
     }
     // Fetch user data from database using decoded token (e.g., user ID)
     const user = await User.findOne({where: {id: decoded.userData.userId}})
+    const userData = {
+        userId: user.id,
+        userName: user.userName
+    }
     // Generate new access token
-    const accessToken = generateAccessToken({userId: user.id, userName: user.userName});
+    const accessToken = generateAccessToken({userData});
     // Respond with new access token
     res.json({accessToken});
 };
-
-// // Protected route function (example)
-// exports.protectedRoute = async (req, res) => {
-//     // Access protected resource
-//     res.json({message: 'Protected resource accessed successfully'});
-// };
 
 exports.authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
@@ -79,5 +77,7 @@ exports.authenticateToken = (req, res, next) => {
     if (!decoded) {
         return res.status(401).json({error: 'Access token is invalid'});
     }
+    console.log("anemanda:sssssss", JSON.stringify(decoded))
+    res.userId = decoded.userData.userId;
     next();
 }

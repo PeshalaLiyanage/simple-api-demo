@@ -12,7 +12,10 @@ const DashboardPage = () => {
             navigate("/");
         }
     }, []);
-
+    const logout = async () => {
+        sessionStorage.removeItem("accessToken")
+        navigate("/")
+    };
     const fetchTodos = async () => {
         setLoading(true);
         try {
@@ -22,6 +25,9 @@ const DashboardPage = () => {
                 }
             });
             const data = await response.json();
+            if (response.status !=200){
+                await logout();
+            }
             setTodos(data);
         } catch (error) {
             console.error('Error fetching todos:', error);
@@ -29,27 +35,25 @@ const DashboardPage = () => {
             setLoading(false);
         }
     };
-    const logout = async () => {
-        sessionStorage.removeItem("accessToken")
-        navigate("/")
-    };
+
 
     return (
         <>
             <div className="dashboard-page">
                 <h2>Welcome to the Dashboard!</h2>
                 <p>This is your protected dashboard content.</p>
-                <button onClick={logout}>Logout</button>
+
             </div>
             <div>
                 <button onClick={fetchTodos} disabled={loading}>
                     {loading ? 'Loading...' : 'Fetch Todos'}
                 </button>
                 <ul>
-                    {todos?.map(todo => (
-                        <li key={todo.id}>{todo.title}</li>
+                    {todos && Array.isArray(todos) && todos.map(todo => (
+                        <li key={todo.id}>{todo.description}</li>
                     ))}
                 </ul>
+                <button onClick={logout}>Logout</button>
             </div>
         </>
     );
