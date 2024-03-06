@@ -33,4 +33,4 @@ sequelize.sync()
         console.error('Error syncing database:', err);
     });
 
-module.exports = { sequelize, User, Todo };
+module.exports = { sequelize, User, Todo,Token };

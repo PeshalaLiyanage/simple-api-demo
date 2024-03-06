@@ -1,6 +1,6 @@
 async function getAllTodos(req, res) {
     try {
-        res.json("todos");
+        res.json(["Task1","task2"]);
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
     }
