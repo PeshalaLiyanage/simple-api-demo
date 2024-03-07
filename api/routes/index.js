@@ -1,12 +1,18 @@
 // routes/index.js
 
 const express = require('express');
-const todoRoutes = require('./todoRoutes');
-const userRoutes = require('./userRoutes');
+const {getAllTodos, createTodo} = require('../controllers/todoController')
+const {login, refreshToken, authenticateToken} = require('../controllers/authController');
+const {createUser} = require('../controllers/userController');
 
 const router = express.Router();
 
-router.use('/', todoRoutes);
-router.use('/user', userRoutes);
+// call the controller functions
+router.get('/todo', authenticateToken, getAllTodos);
+router.post('/todo', authenticateToken, createTodo);
+router.post('/user',createUser);
+
+router.post('/login', login); // Login route
+router.post('/refresh-token', refreshToken); // Refresh token route
 
 module.exports = router;
