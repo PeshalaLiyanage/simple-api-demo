@@ -2,7 +2,6 @@ const {Todo}  = require('../db');
 
 async function getAllTodos(req, res) {
     try {
-        console.log("wadakkkkkkk naa ",res.userId)
         const todo = await Todo.findAll({where:{UserId:res.userId}})
 
         res.json(todo);

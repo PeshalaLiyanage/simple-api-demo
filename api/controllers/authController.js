@@ -77,7 +77,6 @@ exports.authenticateToken = (req, res, next) => {
     if (!decoded) {
         return res.status(401).json({error: 'Access token is invalid'});
     }
-    console.log("anemanda:sssssss", JSON.stringify(decoded))
     res.userId = decoded.userData.userId;
     next();
 }
